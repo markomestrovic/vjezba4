@@ -38,12 +38,27 @@ const Student = ({ name, lastName, imgSrc }) => {
 };
 
 const StateDemo = () => {
-
     const [shouldHideList, setShouldHideList] = useState(false);
+    const [students, setStudents] = useState(studentsConstArray);
+
+    const [nameInputValue, setNameInputValue] = useState('');
+    const [lastNameInputValue, setLastNameInputValue] = useState('');
 
     const handleToggle = () => {
         setShouldHideList(!shouldHideList);
         console.log(shouldHideList);
+    };
+
+    const handleSubmit = () => {
+        const newStudent = {
+            id: students.length + 1,
+            name: nameInputValue,
+            lastName: lastNameInputValue,
+            imgSrc: '/profile.jpg',
+        };
+
+        setStudents([...students, newStudent]);
+        console.log(students);
     };
 
     return (
@@ -58,27 +73,37 @@ const StateDemo = () => {
                     </p>
                 ) : (
                     <ul className="flex flex-col items-center justify-around">
-                        {studentsConstArray.map((el) => (
+                        {students.map((el) => (
                             <Student key={el.id} {...el} />
                         ))}
                     </ul>
                 )}
                 <section className="flex flex-col w-64 justify-center items-center my-0 mx-auto border-gray-500">
                     <input
+                        value={nameInputValue}
+                        onChange={(e) => setNameInputValue(e.target.value)}
                         className="border-b-2 outline-none mt-5 border-solid border-gray-500"
                         type="text"
                         placeholder="Name"
                     />
                     <input
+                        value={lastNameInputValue}
+                        onChange={(e) => setLastNameInputValue(e.target.value)}
                         className="border-b-2 outline-none mt-5 border-solid border-gray-500"
                         type="text"
                         placeholder="Last name"
                     />
-                    <button className="my-5 cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button
+                        onClick={handleSubmit}
+                        className="my-5 cursor-pointer bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                    >
                         Submit
                     </button>
                 </section>
-                <button onClick={handleToggle} className="block mx-auto cursor-pointer bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                <button
+                    onClick={handleToggle}
+                    className="block mx-auto cursor-pointer bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded"
+                >
                     Toggle
                 </button>
             </main>
